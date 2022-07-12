@@ -1,4 +1,4 @@
-package com.alkemy.disney;
+package alkemy.disney;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
