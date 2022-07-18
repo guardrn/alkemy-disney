@@ -64,4 +64,18 @@ public class MovieController {
         return ResponseEntity.ok().body(movies);
     }
 
+    @PostMapping("/{movieId}/characters/{characterId}")
+    public ResponseEntity<MovieDTO> saveCharacterInMovie(@PathVariable("movieId") Long idMovie,
+                                                         @PathVariable("characterId") Long characterId) {
+        movieService.saveCharacterInMovie(idMovie, characterId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @DeleteMapping("/{movieId}/characters/{characterId}")
+    public ResponseEntity<MovieDTO> deleteCharacterInMovie(@PathVariable("movieId") Long idMovie,
+                                                           @PathVariable("characterId") Long characterId) {
+        movieService.deleteCharacterInMovie(idMovie, characterId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

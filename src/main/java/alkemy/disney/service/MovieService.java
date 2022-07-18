@@ -22,4 +22,8 @@ public interface MovieService {
 
     List<MovieDTO> getAllMoviesByOrder(String order);
 
+    void saveCharacterInMovie(Long idMovie, Long idCharacter);
+
+    void deleteCharacterInMovie(Long idMovie, Long idCharacter);
+
 }

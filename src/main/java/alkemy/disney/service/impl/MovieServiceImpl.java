@@ -1,9 +1,13 @@
 package alkemy.disney.service.impl;
 
+import alkemy.disney.dto.CharacterDTO;
 import alkemy.disney.dto.MovieDTO;
+import alkemy.disney.entity.CharacterEntity;
 import alkemy.disney.entity.MovieEntity;
+import alkemy.disney.mapper.CharacterMapper;
 import alkemy.disney.mapper.MovieMapper;
 import alkemy.disney.repository.MovieRepository;
+import alkemy.disney.service.CharacterService;
 import alkemy.disney.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,12 @@ public class MovieServiceImpl implements MovieService {
 
     @Autowired
     private MovieMapper movieMapper;
+
+    @Autowired
+    private CharacterService characterService;
+
+    @Autowired
+    private CharacterMapper characterMapper;
 
     @Override
     public List<MovieDTO> getAllMovies() {
@@ -75,6 +85,26 @@ public class MovieServiceImpl implements MovieService {
         }
         List<MovieDTO> movies = movieMapper.movieEntityList2DTOList(entities);
         return movies;
+    }
+
+    @Override
+    public void saveCharacterInMovie(Long idMovie, Long idCharacter) {
+        MovieDTO movieDTO = getDetailsById(idMovie);
+        MovieEntity movieEntitySaved = movieMapper.movieDTO2Entity(movieDTO);
+        CharacterDTO characterDTO = characterService.getDetailsById(idCharacter);
+        CharacterEntity characterEntity = characterMapper.characterDTO2Entity(characterDTO);
+        movieEntitySaved.saveCharacterInMovie(characterEntity);
+        movieRepository.save(movieEntitySaved);
+    }
+
+    @Override
+    public void deleteCharacterInMovie(Long idMovie, Long idCharacter) {
+        MovieDTO movieDTO = getDetailsById(idMovie);
+        MovieEntity movieEntityDeleted = movieMapper.movieDTO2Entity(movieDTO);
+        CharacterDTO characterDTO = characterService.getDetailsById(idCharacter);
+        CharacterEntity characterEntity = characterMapper.characterDTO2Entity(characterDTO);
+        movieEntityDeleted.deleteCharacterInMovie(characterEntity);
+        movieRepository.save(movieEntityDeleted);
     }
 
 }

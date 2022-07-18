@@ -51,4 +51,12 @@ public class MovieEntity {
     @Column
     private boolean deleted = Boolean.FALSE;
 
+    public void saveCharacterInMovie(CharacterEntity character) {
+        characters.add(character);
+    }
+
+    public void deleteCharacterInMovie(CharacterEntity character) {
+        characters.remove(character);
+    }
+
 }

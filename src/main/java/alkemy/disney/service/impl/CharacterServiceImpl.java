@@ -73,4 +73,6 @@ public class CharacterServiceImpl implements CharacterService {
         CharacterDTO characterFound = characterMapper.characterEntity2DTO(characterEntity);
         return characterFound;
     }
+
+
 }
