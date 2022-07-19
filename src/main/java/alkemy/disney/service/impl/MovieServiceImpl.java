@@ -19,15 +19,15 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    private MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
 
-    private MovieSpecification movieSpecification;
+    private final MovieSpecification movieSpecification;
 
-    private MovieMapper movieMapper;
+    private final MovieMapper movieMapper;
 
-    private CharacterService characterService;
+    private final CharacterService characterService;
 
-    private CharacterMapper characterMapper;
+    private final CharacterMapper characterMapper;
 
     @Autowired
     public MovieServiceImpl(MovieRepository movieRepository, MovieSpecification movieSpecification,

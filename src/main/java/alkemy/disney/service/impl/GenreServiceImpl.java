@@ -13,47 +13,46 @@ import java.util.List;
 @Service
 public class GenreServiceImpl implements GenreService {
 
-    @Autowired
-    private GenreRepository genreRepository;
+    private final GenreRepository genreRepository;
+
+    private final GenreMapper genreMapper;
 
     @Autowired
-    private GenreMapper genreMapper;
+    public GenreServiceImpl(GenreRepository genreRepository, GenreMapper genreMapper) {
+        this.genreRepository = genreRepository;
+        this.genreMapper = genreMapper;
+    }
 
     @Override
     public List<GenreDTO> getAllGenres() {
         List<GenreEntity> entities = genreRepository.findAll();
-        List<GenreDTO> genres = genreMapper.genreEntityList2DTOList(entities);
-        return genres;
+        return genreMapper.genreEntityList2DTOList(entities);
     }
 
     @Override
-    public GenreDTO getDetailsById(Long id) {
-        GenreEntity genreEntity = genreRepository.findById(id).orElse(null);
-        GenreDTO genreFound = genreMapper.genreEntity2DTO(genreEntity);
-        return genreFound;
+    public GenreDTO getDetailsById(Long genreId) {
+        GenreEntity genreEntity = genreRepository.findById(genreId).orElse(null);
+        return genreMapper.genreEntity2DTO(genreEntity);
     }
 
     @Override
     public GenreDTO saveGenre(GenreDTO genreDto) {
         GenreEntity genreEntity = genreMapper.genreDTO2Entity(genreDto);
         GenreEntity genreEntitySaved = genreRepository.save(genreEntity);
-        GenreDTO savedGenre = genreMapper.genreEntity2DTO(genreEntitySaved);
-        return savedGenre;
+        return genreMapper.genreEntity2DTO(genreEntitySaved);
     }
 
     @Override
-    public GenreDTO updateGenre(Long id, GenreDTO genreDto) {
-        GenreEntity genreEntity = genreRepository.getReferenceById(id);
-        genreEntity.setName(genreDto.getName());
-        genreEntity.setPicture(genreDto.getPicture());
+    public GenreDTO updateGenre(Long genreId, GenreDTO genreDto) {
+        GenreEntity genreEntity = genreRepository.getReferenceById(genreId);
+        genreMapper.update(genreEntity, genreDto);
         genreRepository.save(genreEntity);
-        GenreDTO updatedGenre = genreMapper.genreEntity2DTO(genreEntity);
-        return updatedGenre;
+        return genreMapper.genreEntity2DTO(genreEntity);
     }
 
     @Override
-    public void deleteGenre(Long id) {
-        genreRepository.deleteById(id);
+    public void deleteGenre(Long genreId) {
+        genreRepository.deleteById(genreId);
     }
 
 }

@@ -15,11 +15,11 @@ import java.util.List;
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
-    private CharacterRepository characterRepository;
+    private final CharacterRepository characterRepository;
 
-    private CharacterSpecification characterSpecification;
+    private final CharacterSpecification characterSpecification;
 
-    private CharacterMapper characterMapper;
+    private final CharacterMapper characterMapper;
 
     @Autowired
     public CharacterServiceImpl(CharacterRepository characterRepository,
