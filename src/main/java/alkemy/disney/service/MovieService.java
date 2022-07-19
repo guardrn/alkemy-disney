@@ -8,22 +8,18 @@ public interface MovieService {
 
     List<MovieDTO> getAllMovies();
 
-    MovieDTO getDetailsById(Long id);
+    MovieDTO getDetailsById(Long movieId);
+
+    List<MovieDTO> getDetailsByFilter(String title, Long genre, String order);
 
     MovieDTO saveMovie(MovieDTO movieDTO);
 
-    MovieDTO updateMovie(Long id, MovieDTO movieDTO);
+    MovieDTO updateMovie(Long movieId, MovieDTO movieDTO);
 
-    void deleteMovie(Long id);
+    void deleteMovie(Long movieId);
 
-    MovieDTO getDetailsByName(String name);
+    void saveCharacterInMovie(Long movieId, Long characterId);
 
-    MovieDTO getDetailsByGenre(Long genre);
-
-    List<MovieDTO> getAllMoviesByOrder(String order);
-
-    void saveCharacterInMovie(Long idMovie, Long idCharacter);
-
-    void deleteCharacterInMovie(Long idMovie, Long idCharacter);
+    void deleteCharacterInMovie(Long movieId, Long characterId);
 
 }

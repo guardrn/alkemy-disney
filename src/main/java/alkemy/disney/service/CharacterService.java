@@ -8,16 +8,14 @@ public interface CharacterService {
 
     List<CharacterDTO> getAllCharacters();
 
-    CharacterDTO getDetailsById(Long id);
+    CharacterDTO getDetailsById(Long characterId);
+
+    List<CharacterDTO> getDetailsByFilter(String name, Integer age, List<Long> movies);
 
     CharacterDTO saveCharacter(CharacterDTO character);
 
-    CharacterDTO updateCharacter(Long id, CharacterDTO character);
+    CharacterDTO updateCharacter(Long characterId, CharacterDTO character);
 
-    void deleteCharacter(Long id);
-
-    CharacterDTO getDetailsByName(String name);
-
-    CharacterDTO getDetailsByMovie(Long idMovie);
+    void deleteCharacter(Long characterId);
 
 }
