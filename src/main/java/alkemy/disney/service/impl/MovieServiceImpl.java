@@ -2,11 +2,13 @@ package alkemy.disney.service.impl;
 
 import alkemy.disney.dto.CharacterDTO;
 import alkemy.disney.dto.MovieDTO;
+import alkemy.disney.dto.MovieFilterDTO;
 import alkemy.disney.entity.CharacterEntity;
 import alkemy.disney.entity.MovieEntity;
 import alkemy.disney.mapper.CharacterMapper;
 import alkemy.disney.mapper.MovieMapper;
 import alkemy.disney.repository.MovieRepository;
+import alkemy.disney.repository.specification.MovieSpecification;
 import alkemy.disney.service.CharacterService;
 import alkemy.disney.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,91 +19,81 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    @Autowired
     private MovieRepository movieRepository;
 
-    @Autowired
+    private MovieSpecification movieSpecification;
+
     private MovieMapper movieMapper;
 
-    @Autowired
     private CharacterService characterService;
 
-    @Autowired
     private CharacterMapper characterMapper;
+
+    @Autowired
+    public MovieServiceImpl(MovieRepository movieRepository, MovieSpecification movieSpecification,
+                            MovieMapper movieMapper, CharacterService characterService,
+                            CharacterMapper characterMapper) {
+        this.movieRepository = movieRepository;
+        this.movieSpecification = movieSpecification;
+        this.movieMapper = movieMapper;
+        this.characterService = characterService;
+        this.characterMapper = characterMapper;
+    }
 
     @Override
     public List<MovieDTO> getAllMovies() {
         List<MovieEntity> entities = movieRepository.findAll();
-        List<MovieDTO> movies = movieMapper.movieEntityList2DTOList(entities);
-        return movies;
+        return movieMapper.movieEntityList2DTOList(entities, false);
     }
 
     @Override
-    public MovieDTO getDetailsById(Long id) {
-        MovieEntity movieEntity = movieRepository.findById(id).orElse(null);
-        MovieDTO movieFound = movieMapper.movieEntity2DTO(movieEntity);
-        return movieFound;
+    public MovieDTO getDetailsById(Long movieId) {
+        MovieEntity movieEntity = movieRepository.findById(movieId).orElse(null);
+        return movieMapper.movieEntity2DTO(movieEntity, true);
+    }
+
+    @Override
+    public List<MovieDTO> getDetailsByFilter(String title, Long genre, String order) {
+        MovieFilterDTO filterDTO = new MovieFilterDTO(title, genre, order);
+        List<MovieEntity> entities = movieRepository.findAll(movieSpecification.getByFilters(filterDTO));
+        return movieMapper.movieEntityList2DTOList(entities, true);
     }
 
     @Override
     public MovieDTO saveMovie(MovieDTO movieDTO) {
         MovieEntity movieEntity = movieMapper.movieDTO2Entity(movieDTO);
         MovieEntity movieEntitySaved = movieRepository.save(movieEntity);
-        MovieDTO movieSaved = movieMapper.movieEntity2DTO(movieEntitySaved);
-        return movieSaved;
+        return movieMapper.movieEntity2DTO(movieEntitySaved, false);
     }
 
     @Override
-    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
-        return null;
+    public MovieDTO updateMovie(Long movieId, MovieDTO movieDTO) {
+        MovieEntity movieEntity = movieRepository.getReferenceById(movieId);
+        movieMapper.update(movieEntity, movieDTO);
+        movieRepository.save(movieEntity);
+        return movieMapper.movieEntity2DTO(movieEntity, false);
     }
 
     @Override
-    public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
+    public void deleteMovie(Long movieId) {
+        movieRepository.deleteById(movieId);
     }
 
     @Override
-    public MovieDTO getDetailsByName(String name) {
-        MovieEntity movieEntity = movieRepository.getDetailsByName(name);
-        MovieDTO movieFound = movieMapper.movieEntity2DTO(movieEntity);
-        return movieFound;
-    }
-
-    @Override
-    public MovieDTO getDetailsByGenre(Long genre) {
-        MovieEntity movieEntity = movieRepository.getDetailsByGenre(genre);
-        MovieDTO movieFound = movieMapper.movieEntity2DTO(movieEntity);
-        return movieFound;
-    }
-
-    @Override
-    public List<MovieDTO> getAllMoviesByOrder(String order) {
-        List<MovieEntity> entities;
-        if (order.equals("ASC")) {
-            entities = movieRepository.getAllMoviesByOrderASC();
-        } else {
-            entities = movieRepository.getAllMoviesByOrderDESC();
-        }
-        List<MovieDTO> movies = movieMapper.movieEntityList2DTOList(entities);
-        return movies;
-    }
-
-    @Override
-    public void saveCharacterInMovie(Long idMovie, Long idCharacter) {
-        MovieDTO movieDTO = getDetailsById(idMovie);
+    public void saveCharacterInMovie(Long movieId, Long characterId) {
+        MovieDTO movieDTO = getDetailsById(movieId);
         MovieEntity movieEntitySaved = movieMapper.movieDTO2Entity(movieDTO);
-        CharacterDTO characterDTO = characterService.getDetailsById(idCharacter);
+        CharacterDTO characterDTO = characterService.getDetailsById(characterId);
         CharacterEntity characterEntity = characterMapper.characterDTO2Entity(characterDTO);
         movieEntitySaved.saveCharacterInMovie(characterEntity);
         movieRepository.save(movieEntitySaved);
     }
 
     @Override
-    public void deleteCharacterInMovie(Long idMovie, Long idCharacter) {
-        MovieDTO movieDTO = getDetailsById(idMovie);
+    public void deleteCharacterInMovie(Long movieId, Long characterId) {
+        MovieDTO movieDTO = getDetailsById(movieId);
         MovieEntity movieEntityDeleted = movieMapper.movieDTO2Entity(movieDTO);
-        CharacterDTO characterDTO = characterService.getDetailsById(idCharacter);
+        CharacterDTO characterDTO = characterService.getDetailsById(characterId);
         CharacterEntity characterEntity = characterMapper.characterDTO2Entity(characterDTO);
         movieEntityDeleted.deleteCharacterInMovie(characterEntity);
         movieRepository.save(movieEntityDeleted);
