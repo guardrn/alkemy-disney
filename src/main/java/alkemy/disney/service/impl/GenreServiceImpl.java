@@ -2,6 +2,7 @@ package alkemy.disney.service.impl;
 
 import alkemy.disney.dto.GenreDTO;
 import alkemy.disney.entity.GenreEntity;
+import alkemy.disney.exception.ParamNotFound;
 import alkemy.disney.mapper.GenreMapper;
 import alkemy.disney.repository.GenreRepository;
 import alkemy.disney.service.GenreService;
@@ -32,6 +33,9 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public GenreDTO getDetailsById(Long genreId) {
         GenreEntity genreEntity = genreRepository.findById(genreId).orElse(null);
+        if (genreEntity.getGenreId() == null) {
+            throw new ParamNotFound("Invalid Genre ID");
+        }
         return genreMapper.genreEntity2DTO(genreEntity);
     }
 

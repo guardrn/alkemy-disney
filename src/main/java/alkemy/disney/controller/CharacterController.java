@@ -16,7 +16,7 @@ public class CharacterController {
     @Autowired
     private CharacterService characterService;
 
-    @GetMapping
+    @GetMapping("/allCharacters")
     public ResponseEntity<List<CharacterDTO>> getAllCharacters() {
         List<CharacterDTO> characters = characterService.getAllCharacters();
         return ResponseEntity.ok(characters);

@@ -1,7 +1,6 @@
 package alkemy.disney.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -12,8 +11,7 @@ import java.util.List;
 @Table(name = "characters")
 @SQLDelete(sql = "UPDATE characters SET deleted = true WHERE character_id = ?")
 @Where(clause = "deleted = false")
-@Getter
-@Setter
+@Data
 public class CharacterEntity {
 
     @Id

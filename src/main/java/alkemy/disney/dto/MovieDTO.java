@@ -1,14 +1,12 @@
 package alkemy.disney.dto;
 
 import alkemy.disney.entity.GenreEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class MovieDTO {
 
     private Long movieId;

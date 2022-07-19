@@ -16,7 +16,7 @@ public class GenreController {
     @Autowired
     private GenreService genreService;
 
-    @GetMapping
+    @GetMapping("/allGenres")
     public ResponseEntity<List<GenreDTO>> getAllGenres() {
         List<GenreDTO> genres = genreService.getAllGenres();
         return ResponseEntity.ok(genres);
