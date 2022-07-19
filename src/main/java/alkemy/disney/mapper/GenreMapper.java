@@ -35,4 +35,10 @@ public class GenreMapper {
         return dtoList;
     }
 
+    public GenreEntity update(GenreEntity genreEntity, GenreDTO genreDTO) {
+        genreEntity.setName(genreDTO.getName());
+        genreEntity.setPicture(genreDTO.getPicture());
+        return genreEntity;
+    }
+
 }
