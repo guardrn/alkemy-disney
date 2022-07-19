@@ -19,13 +19,23 @@ public class CharacterController {
     @GetMapping
     public ResponseEntity<List<CharacterDTO>> getAllCharacters() {
         List<CharacterDTO> characters = characterService.getAllCharacters();
-        return ResponseEntity.ok().body(characters);
+        return ResponseEntity.ok(characters);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CharacterDTO> getDetailsById(@PathVariable("id") Long id) {
-        CharacterDTO character = characterService.getDetailsById(id);
-        return ResponseEntity.ok().body(character);
+    @GetMapping("/{idCharacter}")
+    public ResponseEntity<CharacterDTO> getDetailsById(@PathVariable("idCharacter") Long idCharacter) {
+        CharacterDTO character = characterService.getDetailsById(idCharacter);
+        return ResponseEntity.ok(character);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CharacterDTO>> getDetailsByFilters(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer age,
+            @RequestParam(required = false) List<Long> movies
+    ) {
+        List<CharacterDTO> characters = characterService.getDetailsByFilter(name, age, movies);
+        return ResponseEntity.ok(characters);
     }
 
     @PostMapping("/save")
@@ -34,28 +44,17 @@ public class CharacterController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCharacter);
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity<CharacterDTO> updateCharacter(@PathVariable("id") Long id, CharacterDTO character) {
-        CharacterDTO updatedCharacter = characterService.updateCharacter(id, character);
+    @PutMapping("update/{idCharacter}")
+    public ResponseEntity<CharacterDTO> updateCharacter(@PathVariable("idCharacter") Long idCharacter,
+                                                        CharacterDTO character) {
+        CharacterDTO updatedCharacter = characterService.updateCharacter(idCharacter, character);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedCharacter);
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<CharacterDTO> deleteCharacter(@PathVariable("id") Long id) {
-        characterService.deleteCharacter(id);
+    @DeleteMapping("delete/{idCharacter}")
+    public ResponseEntity<CharacterDTO> deleteCharacter(@PathVariable("idCharacter") Long idCharacter) {
+        characterService.deleteCharacter(idCharacter);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @GetMapping(params = "name")
-    public ResponseEntity<CharacterDTO> getDetailsByName(@RequestParam("name") String name) {
-        CharacterDTO character = characterService.getDetailsByName(name);
-        return ResponseEntity.ok().body(character);
-    }
-
-    @GetMapping(params = "idMovie")
-    public ResponseEntity<CharacterDTO> getDetailsByMovie(@RequestParam("idMovie") Long idMovie) {
-        CharacterDTO character = characterService.getDetailsByMovie(idMovie);
-        return ResponseEntity.ok().body(character);
     }
 
 }

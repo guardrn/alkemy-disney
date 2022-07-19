@@ -22,10 +22,20 @@ public class MovieController {
         return ResponseEntity.ok().body(movies);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MovieDTO> getDetailsById(@PathVariable("id") Long id) {
-        MovieDTO movie = movieService.getDetailsById(id);
+    @GetMapping("/{movieId}")
+    public ResponseEntity<MovieDTO> getDetailsById(@PathVariable("movieId") Long movieId) {
+        MovieDTO movie = movieService.getDetailsById(movieId);
         return ResponseEntity.ok(movie);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MovieDTO>> getDetailsByFilters(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Long genre,
+            @RequestParam(required = false) String order
+    ) {
+        List<MovieDTO> movies = movieService.getDetailsByFilter(title, genre, order);
+        return ResponseEntity.ok(movies);
     }
 
     @PostMapping("/save")
@@ -34,34 +44,17 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<MovieDTO> updateMovie(@PathVariable("id") Long id, @RequestBody MovieDTO movie) {
-        MovieDTO updatedMovie = movieService.updateMovie(id, movie);
+    @PutMapping("/update/{idMovie}")
+    public ResponseEntity<MovieDTO> updateMovie(@PathVariable("idMovie") Long idMovie,
+                                                @RequestBody MovieDTO movie) {
+        MovieDTO updatedMovie = movieService.updateMovie(idMovie, movie);
         return ResponseEntity.status(HttpStatus.CREATED).body(updatedMovie);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMovie(@PathVariable("id") Long id) {
-        movieService.deleteMovie(id);
+    @DeleteMapping("/delete/{idMovie}")
+    public ResponseEntity<Void> deleteMovie(@PathVariable("idMovie") Long idMovie) {
+        movieService.deleteMovie(idMovie);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @GetMapping(params = "name")
-    public ResponseEntity<MovieDTO> getDetailsByName(@RequestParam("name") String name) {
-        MovieDTO movie = movieService.getDetailsByName(name);
-        return ResponseEntity.ok().body(movie);
-    }
-
-    @GetMapping(params = "genre")
-    public ResponseEntity<MovieDTO> getDetailsByGenre(@RequestParam("genre") Long genre) {
-        MovieDTO movie = movieService.getDetailsByGenre(genre);
-        return ResponseEntity.ok().body(movie);
-    }
-
-    @GetMapping(params = "order")
-    public ResponseEntity<List<MovieDTO>> getDetailsByOrder(@RequestParam("order") String order) {
-        List<MovieDTO> movies = movieService.getAllMoviesByOrder(order);
-        return ResponseEntity.ok().body(movies);
     }
 
     @PostMapping("/{movieId}/characters/{characterId}")
