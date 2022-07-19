@@ -1,6 +1,5 @@
 package alkemy.disney.dto;
 
-import alkemy.disney.entity.CharacterEntity;
 import alkemy.disney.entity.GenreEntity;
 import lombok.Getter;
 import lombok.Setter;
