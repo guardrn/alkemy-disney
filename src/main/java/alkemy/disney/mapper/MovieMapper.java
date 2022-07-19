@@ -56,7 +56,7 @@ public class MovieMapper {
         return dtoList;
     }
 
-    public MovieEntity update(MovieEntity movieEntity, MovieDTO movieDTO){
+    public MovieEntity update(MovieEntity movieEntity, MovieDTO movieDTO) {
         movieEntity.setPicture(movieDTO.getPicture());
         movieEntity.setTitle(movieDTO.getTitle());
         movieEntity.setReleaseDate(movieDTO.getReleaseDate());
