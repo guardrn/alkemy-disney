@@ -22,7 +22,7 @@ public class CharacterDTO {
 
     private String story;
 
-    private List<MovieEntity> movies;
+    private List<MovieDTO> movies;
 
     private boolean deleted;
 

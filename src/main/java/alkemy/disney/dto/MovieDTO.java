@@ -22,7 +22,7 @@ public class MovieDTO {
 
     private Integer rate;
 
-    private List<CharacterEntity> characters;
+    private List<CharacterDTO> characters;
 
     private GenreEntity genre;
 
