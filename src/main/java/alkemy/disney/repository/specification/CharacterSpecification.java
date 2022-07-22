@@ -20,9 +20,7 @@ public class CharacterSpecification {
 
     public Specification<CharacterEntity> getByFilters(CharacterFilterDTO filterDTO) {
         return (root, query, criteriaBuilder) -> {
-
             List<Predicate> predicates = new ArrayList<>();
-
             if (StringUtils.hasLength(filterDTO.getName())) {
                 predicates.add(
                         criteriaBuilder.like(
@@ -31,19 +29,16 @@ public class CharacterSpecification {
                         )
                 );
             }
-
             if (filterDTO.getAge() != null) {
                 predicates.add(
                         criteriaBuilder.equal(root.get("age"), filterDTO.getAge())
                 );
             }
-
             if (!CollectionUtils.isEmpty(filterDTO.getMovies())) {
                 Join<MovieEntity, CharacterEntity> join = root.join("movies", JoinType.INNER);
                 Expression<String> moviesId = join.get("movie_id");
                 predicates.add(moviesId.in(filterDTO.getMovies()));
             }
-
             query.distinct(true);
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

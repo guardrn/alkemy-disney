@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface CharacterRepository extends JpaRepository<CharacterEntity, Long> {
 
-    List<CharacterEntity> findAll(Specification<CharacterEntity> character);
+    List<CharacterEntity> findAll(Specification<CharacterEntity> specification);
 
 }
