@@ -1,8 +1,10 @@
 package alkemy.disney.mapper;
 
+import alkemy.disney.dto.CharacterBasicDTO;
 import alkemy.disney.dto.CharacterDTO;
 import alkemy.disney.dto.MovieDTO;
 import alkemy.disney.entity.CharacterEntity;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -17,18 +19,24 @@ public class CharacterMapper {
     @Lazy
     private MovieMapper movieMapper;
 
-    public CharacterEntity characterDTO2Entity(CharacterDTO characterDTO) {
-        CharacterEntity characterEntity = new CharacterEntity();
-        characterEntity.setPicture(characterDTO.getPicture());
-        characterEntity.setName(characterDTO.getName());
-        characterEntity.setAge(characterDTO.getAge());
-        characterEntity.setWeight(characterDTO.getWeight());
-        characterEntity.setStory(characterDTO.getStory());
-        return characterEntity;
+    public CharacterBasicDTO characterEntity2BasicDTO(@NotNull CharacterEntity entity) {
+        CharacterBasicDTO characterBasicDTO = new CharacterBasicDTO();
+        characterBasicDTO.setPicture(entity.getPicture());
+        characterBasicDTO.setName(entity.getName());
+        return characterBasicDTO;
     }
 
-    public CharacterDTO characterEntity2DTO(CharacterEntity characterEntity, boolean loadMovies) {
+    public List<CharacterBasicDTO> characterEntityList2BasicDTOList(@NotNull List<CharacterEntity> entities) {
+        List<CharacterBasicDTO> dtoList = new ArrayList<>();
+        for (CharacterEntity entity : entities) {
+            dtoList.add(characterEntity2BasicDTO(entity));
+        }
+        return dtoList;
+    }
+
+    public CharacterDTO characterEntity2DTO(@NotNull CharacterEntity characterEntity, boolean loadMovies) {
         CharacterDTO characterDTO = new CharacterDTO();
+        characterDTO.setCharacterId(characterEntity.getCharacterId());
         characterDTO.setPicture(characterEntity.getPicture());
         characterDTO.setName(characterEntity.getName());
         characterDTO.setAge(characterEntity.getAge());
@@ -42,15 +50,7 @@ public class CharacterMapper {
         return characterDTO;
     }
 
-    public List<CharacterEntity> characterDTOList2EntityList(List<CharacterDTO> dtoList) {
-        List<CharacterEntity> entities = new ArrayList<>();
-        for (CharacterDTO dto : dtoList) {
-            entities.add(characterDTO2Entity(dto));
-        }
-        return entities;
-    }
-
-    public List<CharacterDTO> characterEntityList2DTOList(List<CharacterEntity> entities,
+    public List<CharacterDTO> characterEntityList2DTOList(@NotNull List<CharacterEntity> entities,
                                                           boolean loadMovies) {
         List<CharacterDTO> dtoList = new ArrayList<>();
         for (CharacterEntity entity : entities) {
@@ -59,7 +59,26 @@ public class CharacterMapper {
         return dtoList;
     }
 
-    public CharacterEntity update(CharacterEntity characterEntity, CharacterDTO characterDTO) {
+    public CharacterEntity characterDTO2Entity(@NotNull CharacterDTO characterDTO) {
+        CharacterEntity characterEntity = new CharacterEntity();
+        characterEntity.setPicture(characterDTO.getPicture());
+        characterEntity.setName(characterDTO.getName());
+        characterEntity.setAge(characterDTO.getAge());
+        characterEntity.setWeight(characterDTO.getWeight());
+        characterEntity.setStory(characterDTO.getStory());
+        return characterEntity;
+    }
+
+    public List<CharacterEntity> characterDTOList2EntityList(List<CharacterDTO> dtoList) {
+        List<CharacterEntity> entities = new ArrayList<>();
+        for (CharacterDTO dto : dtoList) {
+            entities.add(characterDTO2Entity(dto));
+        }
+        return entities;
+    }
+
+    public CharacterEntity update(@NotNull CharacterEntity characterEntity,
+                                  @NotNull CharacterDTO characterDTO) {
         characterEntity.setPicture(characterDTO.getPicture());
         characterEntity.setName(characterDTO.getName());
         characterEntity.setAge(characterDTO.getAge());

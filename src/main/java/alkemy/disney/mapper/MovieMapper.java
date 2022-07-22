@@ -1,9 +1,10 @@
 package alkemy.disney.mapper;
 
 import alkemy.disney.dto.CharacterDTO;
+import alkemy.disney.dto.MovieBasicDTO;
 import alkemy.disney.dto.MovieDTO;
-import alkemy.disney.entity.CharacterEntity;
 import alkemy.disney.entity.MovieEntity;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -21,27 +22,30 @@ public class MovieMapper {
     @Autowired
     private CharacterMapper characterMapper;
 
-    public MovieEntity movieDTO2Entity(MovieDTO movieDTO) {
-        MovieEntity movieEntity = new MovieEntity();
-        movieEntity.setPicture(movieDTO.getPicture());
-        movieEntity.setTitle(movieDTO.getTitle());
-        movieEntity.setReleaseDate(movieDTO.getReleaseDate());
-        movieEntity.setRate(movieDTO.getRate());
-        movieEntity.setGenre(movieDTO.getGenre());
-        List<CharacterEntity> characters = characterMapper.characterDTOList2EntityList(
-                movieDTO.getCharacters());
-        movieEntity.setCharacters(characters);
-        return movieEntity;
+    public MovieBasicDTO movieEntity2BasicDTO(@NotNull MovieEntity entity) {
+        MovieBasicDTO movieBasicDTO = new MovieBasicDTO();
+        movieBasicDTO.setPicture(entity.getPicture());
+        movieBasicDTO.setTitle(entity.getTitle());
+        movieBasicDTO.setReleaseDate(entity.getReleaseDate());
+        return movieBasicDTO;
     }
 
-    public MovieDTO movieEntity2DTO(MovieEntity movieEntity, boolean loadCharacters) {
+    public List<MovieBasicDTO> movieEntityList2BasicDTOList(@NotNull List<MovieEntity> entities) {
+        List<MovieBasicDTO> dtoList = new ArrayList<>();
+        for (MovieEntity entity : entities) {
+            dtoList.add(movieEntity2BasicDTO(entity));
+        }
+        return dtoList;
+    }
+
+    public MovieDTO movieEntity2DTO(@NotNull MovieEntity movieEntity, boolean loadCharacters) {
         MovieDTO movieDTO = new MovieDTO();
         movieDTO.setMovieId(movieEntity.getMovieId());
         movieDTO.setPicture(movieEntity.getPicture());
         movieDTO.setTitle(movieEntity.getTitle());
         movieDTO.setReleaseDate(movieEntity.getReleaseDate());
         movieDTO.setRate(movieEntity.getRate());
-        movieDTO.setGenre(movieEntity.getGenre());
+        movieDTO.setGenre(genreMapper.genreEntity2DTO(movieEntity.getGenre()));
         if (loadCharacters) {
             List<CharacterDTO> characters = characterMapper.characterEntityList2DTOList(
                     movieEntity.getCharacters(), false);
@@ -50,7 +54,27 @@ public class MovieMapper {
         return movieDTO;
     }
 
-    public List<MovieDTO> movieEntityList2DTOList(List<MovieEntity> entities, boolean loadCharacters) {
+    public MovieEntity movieDTO2Entity(@NotNull MovieDTO movieDTO) {
+        MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setPicture(movieDTO.getPicture());
+        movieEntity.setTitle(movieDTO.getTitle());
+        movieEntity.setReleaseDate(movieDTO.getReleaseDate());
+        movieEntity.setRate(movieDTO.getRate());
+        movieEntity.setGenre(genreMapper.genreDTO2Entity(movieDTO.getGenre()));
+        movieEntity.setCharacters(characterMapper.characterDTOList2EntityList(movieDTO.getCharacters()));
+        return movieEntity;
+    }
+
+    public List<MovieEntity> movieDTOList2EntityList(@NotNull List<MovieDTO> dtoList) {
+        List<MovieEntity> entityList = new ArrayList<>();
+        for (MovieDTO movieDTO : dtoList) {
+            entityList.add(movieDTO2Entity(movieDTO));
+        }
+        return entityList;
+    }
+
+    public List<MovieDTO> movieEntityList2DTOList(@NotNull List<MovieEntity> entities,
+                                                  boolean loadCharacters) {
         List<MovieDTO> dtoList = new ArrayList<>();
         for (MovieEntity entity : entities) {
             dtoList.add(movieEntity2DTO(entity, loadCharacters));
@@ -58,7 +82,7 @@ public class MovieMapper {
         return dtoList;
     }
 
-    public MovieEntity update(MovieEntity movieEntity, MovieDTO movieDTO) {
+    public MovieEntity update(@NotNull MovieEntity movieEntity, @NotNull MovieDTO movieDTO) {
         movieEntity.setPicture(movieDTO.getPicture());
         movieEntity.setTitle(movieDTO.getTitle());
         movieEntity.setReleaseDate(movieDTO.getReleaseDate());
