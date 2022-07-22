@@ -8,12 +8,12 @@ public interface GenreService {
 
     List<GenreDTO> getAllGenres();
 
-    GenreDTO getDetailsById(Long idGenre);
+    GenreDTO getDetailsById(Long genreId);
 
     GenreDTO saveGenre(GenreDTO genreDto);
 
-    GenreDTO updateGenre(Long idGenre, GenreDTO genreDto);
+    GenreDTO updateGenre(Long genreId, GenreDTO genreDto);
 
-    void deleteGenre(Long idGenre);
+    void deleteGenre(Long genreId);
 
 }

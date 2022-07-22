@@ -1,16 +1,15 @@
 package alkemy.disney.service;
 
+import alkemy.disney.dto.CharacterBasicDTO;
 import alkemy.disney.dto.CharacterDTO;
 
 import java.util.List;
 
 public interface CharacterService {
 
-    List<CharacterDTO> getAllCharacters();
+    List<CharacterBasicDTO> getDetailsByFilter(String name, Integer age, List<Long> movies);
 
     CharacterDTO getDetailsById(Long characterId);
-
-    List<CharacterDTO> getDetailsByFilter(String name, Integer age, List<Long> movies);
 
     CharacterDTO saveCharacter(CharacterDTO character);
 

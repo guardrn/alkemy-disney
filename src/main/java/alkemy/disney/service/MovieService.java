@@ -1,16 +1,15 @@
 package alkemy.disney.service;
 
+import alkemy.disney.dto.MovieBasicDTO;
 import alkemy.disney.dto.MovieDTO;
 
 import java.util.List;
 
 public interface MovieService {
 
-    List<MovieDTO> getAllMovies();
+    List<MovieBasicDTO> getDetailsByFilter(String title, Long genre, String order);
 
     MovieDTO getDetailsById(Long movieId);
-
-    List<MovieDTO> getDetailsByFilter(String title, Long genre, String order);
 
     MovieDTO saveMovie(MovieDTO movieDTO);
 
