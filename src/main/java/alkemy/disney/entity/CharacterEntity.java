@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,29 +16,29 @@ import java.util.List;
 public class CharacterEntity {
 
     @Id
-    @Column(name = "character_id")
+    @Column(name = "character_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long characterId;
 
-    @Column
+    @Column(nullable = false)
     private String picture;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private Integer age;
 
-    @Column
+    @Column(nullable = false)
     private Double weight;
 
-    @Column
+    @Column(nullable = false)
     private String story;
 
-    @ManyToMany(mappedBy = "characters", fetch = FetchType.LAZY)
-    private List<MovieEntity> movies;
+    @ManyToMany(mappedBy = "characters", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<MovieEntity> movies = new ArrayList<>();
 
-    @Column
+    @Column(nullable = false)
     private boolean deleted = Boolean.FALSE;
 
 }

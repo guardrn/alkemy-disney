@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,36 +18,36 @@ import java.util.List;
 public class MovieEntity {
 
     @Id
-    @Column(name = "movie_id")
+    @Column(name = "movie_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long movieId;
 
-    @Column
+    @Column(nullable = false)
     private String picture;
 
-    @Column
+    @Column(nullable = false)
     private String title;
 
-    @Column
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy/mm/dd")
     private LocalDate releaseDate;
 
-    @Column
+    @Column(nullable = false)
     private Integer rate;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "movies_characters",
             joinColumns = {@JoinColumn(name = "movie_id", nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "character_id", nullable = false)}
     )
-    private List<CharacterEntity> characters;
+    private List<CharacterEntity> characters = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "genre_id")
     private GenreEntity genre;
 
-    @Column
+    @Column(nullable = false)
     private boolean deleted = Boolean.FALSE;
 
     public void saveCharacterInMovie(CharacterEntity character) {
