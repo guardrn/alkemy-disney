@@ -14,7 +14,7 @@ public class MovieFilterDTO {
     public MovieFilterDTO(String title, Long genre, String order) {
         this.title = title;
         this.genre = genre;
-        this.order = order;
+        this.order = "ASC";
     }
 
     public boolean isASC() {

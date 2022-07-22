@@ -1,10 +1,12 @@
 package alkemy.disney.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class CharacterFilterDTO {
 
     private String name;
@@ -12,11 +14,5 @@ public class CharacterFilterDTO {
     private Integer age;
 
     private List<Long> movies;
-
-    public CharacterFilterDTO(String name, Integer age, List<Long> movies) {
-        this.name = name;
-        this.age = age;
-        this.movies = movies;
-    }
 
 }
