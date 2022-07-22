@@ -5,43 +5,42 @@ import alkemy.disney.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/genres")
+@RequestMapping(value = "/genres")
+@Validated
 public class GenreController {
 
     @Autowired
     private GenreService genreService;
 
-    @GetMapping("/allGenres")
+    @GetMapping
     public ResponseEntity<List<GenreDTO>> getAllGenres() {
-        List<GenreDTO> genres = genreService.getAllGenres();
-        return ResponseEntity.ok(genres);
+        return ResponseEntity.ok(genreService.getAllGenres());
     }
 
     @GetMapping("/{genreId}")
     public ResponseEntity<GenreDTO> getDetailsById(@PathVariable("genreId") Long genreId) {
-        GenreDTO genre = genreService.getDetailsById(genreId);
-        return ResponseEntity.ok(genre);
+        return ResponseEntity.ok(genreService.getDetailsById(genreId));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<GenreDTO> saveGenre(@RequestBody GenreDTO genre) {
-        GenreDTO savedGenre = genreService.saveGenre(genre);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedGenre);
+    @PostMapping()
+    public ResponseEntity<GenreDTO> saveGenre(@Valid @RequestBody GenreDTO genre) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(genreService.saveGenre(genre));
     }
 
-    @PutMapping("update/{genreId}")
+    @PutMapping("/{genreId}")
     public ResponseEntity<GenreDTO> updateGenre(@PathVariable("genreId") Long genreId,
-                                                @RequestBody GenreDTO genre) {
-        GenreDTO updatedGenre = genreService.updateGenre(genreId, genre);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updatedGenre);
+                                                @Valid @RequestBody GenreDTO genre) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(genreService.updateGenre(genreId, genre));
     }
 
-    @DeleteMapping("delete/{genreId}")
+    @DeleteMapping("/{genreId}")
     public ResponseEntity<Void> deleteGenre(@PathVariable("genreId") Long genreId) {
         genreService.deleteGenre(genreId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

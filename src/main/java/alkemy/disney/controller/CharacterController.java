@@ -1,59 +1,54 @@
 package alkemy.disney.controller;
 
+import alkemy.disney.dto.CharacterBasicDTO;
 import alkemy.disney.dto.CharacterDTO;
 import alkemy.disney.service.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/characters")
+@RequestMapping(value = "/characters")
+@Validated
 public class CharacterController {
 
     @Autowired
     private CharacterService characterService;
 
-    @GetMapping("/allCharacters")
-    public ResponseEntity<List<CharacterDTO>> getAllCharacters() {
-        List<CharacterDTO> characters = characterService.getAllCharacters();
-        return ResponseEntity.ok(characters);
-    }
-
-    @GetMapping("/{idCharacter}")
-    public ResponseEntity<CharacterDTO> getDetailsById(@PathVariable("idCharacter") Long idCharacter) {
-        CharacterDTO character = characterService.getDetailsById(idCharacter);
-        return ResponseEntity.ok(character);
-    }
-
     @GetMapping
-    public ResponseEntity<List<CharacterDTO>> getDetailsByFilters(
+    public ResponseEntity<List<CharacterBasicDTO>> getDetailsByFilters(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer age,
             @RequestParam(required = false) List<Long> movies
     ) {
-        List<CharacterDTO> characters = characterService.getDetailsByFilter(name, age, movies);
-        return ResponseEntity.ok(characters);
+        return ResponseEntity.ok(characterService.getDetailsByFilter(name, age, movies));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<CharacterDTO> saveCharacter(@RequestBody CharacterDTO character) {
-        CharacterDTO savedCharacter = characterService.saveCharacter(character);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedCharacter);
+    @GetMapping("/{characterId}")
+    public ResponseEntity<CharacterDTO> getDetailsById(@PathVariable("characterId") Long characterId) {
+        return ResponseEntity.ok(characterService.getDetailsById(characterId));
     }
 
-    @PutMapping("update/{idCharacter}")
-    public ResponseEntity<CharacterDTO> updateCharacter(@PathVariable("idCharacter") Long idCharacter,
-                                                        CharacterDTO character) {
-        CharacterDTO updatedCharacter = characterService.updateCharacter(idCharacter, character);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updatedCharacter);
+    @PostMapping
+    public ResponseEntity<CharacterDTO> saveCharacter(@Valid @RequestBody CharacterDTO character) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(characterService.saveCharacter(character));
     }
 
-    @DeleteMapping("delete/{idCharacter}")
-    public ResponseEntity<CharacterDTO> deleteCharacter(@PathVariable("idCharacter") Long idCharacter) {
-        characterService.deleteCharacter(idCharacter);
+    @PutMapping("/{characterId}")
+    public ResponseEntity<CharacterDTO> updateCharacter(@PathVariable("characterId") Long characterId,
+                                                        @Valid @RequestBody CharacterDTO character) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(characterService.updateCharacter(
+                characterId, character));
+    }
+
+    @DeleteMapping("/{characterId}")
+    public ResponseEntity<CharacterDTO> deleteCharacter(@PathVariable("characterId") Long characterId) {
+        characterService.deleteCharacter(characterId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
