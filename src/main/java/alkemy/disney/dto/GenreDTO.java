@@ -1,8 +1,9 @@
 package alkemy.disney.dto;
 
-import alkemy.disney.entity.MovieEntity;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -10,12 +11,14 @@ public class GenreDTO {
 
     private Long genreId;
 
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
+    @NotBlank(message = "Picture is mandatory")
     private String picture;
 
-    private List<MovieEntity> movies;
+    private List<MovieDTO> movies = new ArrayList<>();
 
-    private boolean deleted;
+    private boolean deleted = Boolean.FALSE;
 
 }
