@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/git,java,maven,gradle,eclipse,netbeans,intellij,intellij+all,visualstudiocode,windows,linux
-# Edit at https://www.toptal.com/developers/gitignore?templates=git,java,maven,gradle,eclipse,netbeans,intellij,intellij+all,visualstudiocode,windows,linux
+# Created by https://www.toptal.com/developers/gitignore/api/git,java,linux,gradle,eclipse,windows,netbeans,intellij,intellij+all,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=git,java,linux,gradle,eclipse,windows,netbeans,intellij,intellij+all,visualstudiocode
 
 ### Eclipse ###
 .metadata
@@ -294,25 +294,6 @@ replay_pid*
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-### Maven ###
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-# https://github.com/takari/maven-wrapper#usage-without-binary-jar
-.mvn/wrapper/maven-wrapper.jar
-
-# Eclipse m2e generated files
-# Eclipse Core
-.project
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
-
 ### NetBeans ###
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
@@ -393,6 +374,8 @@ gradle-app.setting
 
 # Eclipse Gradle plugin generated files
 # Eclipse Core
+.project
 # JDT-specific (Eclipse Java Development Tools)
+.classpath
 
-# End of https://www.toptal.com/developers/gitignore/api/git,java,maven,gradle,eclipse,netbeans,intellij,intellij+all,visualstudiocode,windows,linux
+# End of https://www.toptal.com/developers/gitignore/api/git,java,linux,gradle,eclipse,windows,netbeans,intellij,intellij+all,visualstudiocode
