@@ -1,3 +1,3 @@
-# Alkemy Disney API Java Challenge
+# Alkemy Disney API Rest Java Challenge
 
 
