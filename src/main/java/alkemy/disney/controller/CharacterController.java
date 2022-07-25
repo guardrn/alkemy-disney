@@ -17,8 +17,12 @@ import java.util.List;
 @Validated
 public class CharacterController {
 
-    @Autowired
     private CharacterService characterService;
+
+    @Autowired
+    public CharacterController(CharacterService characterService) {
+        this.characterService = characterService;
+    }
 
     @GetMapping
     public ResponseEntity<List<CharacterBasicDTO>> getDetailsByFilters(

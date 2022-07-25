@@ -15,9 +15,12 @@ import java.util.List;
 @Component
 public class CharacterMapper {
 
-    @Autowired
-    @Lazy
     private MovieMapper movieMapper;
+
+    @Autowired
+    public CharacterMapper(@Lazy MovieMapper movieMapper) {
+        this.movieMapper = movieMapper;
+    }
 
     public CharacterBasicDTO characterEntity2BasicDTO(@NotNull CharacterEntity entity) {
         CharacterBasicDTO characterBasicDTO = new CharacterBasicDTO();
@@ -69,7 +72,7 @@ public class CharacterMapper {
         return characterEntity;
     }
 
-    public List<CharacterEntity> characterDTOList2EntityList(List<CharacterDTO> dtoList) {
+    public List<CharacterEntity> characterDTOList2EntityList(@NotNull List<CharacterDTO> dtoList) {
         List<CharacterEntity> entities = new ArrayList<>();
         for (CharacterDTO dto : dtoList) {
             entities.add(characterDTO2Entity(dto));

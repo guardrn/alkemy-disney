@@ -17,8 +17,12 @@ import java.util.List;
 @Validated
 public class MovieController {
 
-    @Autowired
     private MovieService movieService;
+
+    @Autowired
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @GetMapping
     public ResponseEntity<List<MovieBasicDTO>> getDetailsByFilters(
@@ -51,7 +55,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping("/{movieId}/characters/{characterId}")
+    @PutMapping("/{movieId}/characters/{characterId}")
     public ResponseEntity<MovieDTO> saveCharacterInMovie(@PathVariable("movieId") Long movieId,
                                                          @PathVariable("characterId") Long characterId) {
         movieService.saveCharacterInMovie(movieId, characterId);

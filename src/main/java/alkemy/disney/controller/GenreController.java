@@ -16,8 +16,12 @@ import java.util.List;
 @Validated
 public class GenreController {
 
-    @Autowired
     private GenreService genreService;
+
+    @Autowired
+    public GenreController(GenreService genreService) {
+        this.genreService = genreService;
+    }
 
     @GetMapping
     public ResponseEntity<List<GenreDTO>> getAllGenres() {

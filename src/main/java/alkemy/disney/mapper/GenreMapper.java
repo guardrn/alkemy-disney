@@ -12,8 +12,12 @@ import java.util.List;
 @Component
 public class GenreMapper {
 
-    @Autowired
     private MovieMapper movieMapper;
+
+    @Autowired
+    public GenreMapper(MovieMapper movieMapper) {
+        this.movieMapper = movieMapper;
+    }
 
     public GenreDTO genreEntity2DTO(@NotNull GenreEntity genreEntity) {
         GenreDTO genreDTO = new GenreDTO();

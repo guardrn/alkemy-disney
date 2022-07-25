@@ -5,7 +5,6 @@ import alkemy.disney.dto.MovieBasicDTO;
 import alkemy.disney.dto.MovieDTO;
 import alkemy.disney.entity.MovieEntity;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +14,14 @@ import java.util.List;
 @Component
 public class MovieMapper {
 
-    @Autowired
-    @Lazy
     private GenreMapper genreMapper;
 
-    @Autowired
     private CharacterMapper characterMapper;
+
+    public MovieMapper(@Lazy GenreMapper genreMapper, CharacterMapper characterMapper) {
+        this.genreMapper = genreMapper;
+        this.characterMapper = characterMapper;
+    }
 
     public MovieBasicDTO movieEntity2BasicDTO(@NotNull MovieEntity entity) {
         MovieBasicDTO movieBasicDTO = new MovieBasicDTO();
@@ -56,6 +57,7 @@ public class MovieMapper {
 
     public MovieEntity movieDTO2Entity(@NotNull MovieDTO movieDTO) {
         MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setMovieId(movieDTO.getMovieId());
         movieEntity.setPicture(movieDTO.getPicture());
         movieEntity.setTitle(movieDTO.getTitle());
         movieEntity.setReleaseDate(movieDTO.getReleaseDate());

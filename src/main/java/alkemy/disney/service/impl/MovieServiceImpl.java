@@ -81,7 +81,6 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.deleteById(movieId);
     }
 
-    // TODO: TEST DEL
     @Override
     public void saveCharacterInMovie(Long movieId, Long characterId) {
         MovieDTO movieDTO = getDetailsById(movieId);
@@ -92,7 +91,6 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.save(movieEntitySaved);
     }
 
-    // TODO: TEST DEL
     @Override
     public void deleteCharacterInMovie(Long movieId, Long characterId) {
         MovieDTO movieDTO = getDetailsById(movieId);
