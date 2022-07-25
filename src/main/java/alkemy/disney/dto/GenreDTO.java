@@ -1,12 +1,14 @@
 package alkemy.disney.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class GenreDTO {
 
     private Long genreId;

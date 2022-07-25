@@ -1,6 +1,7 @@
 package alkemy.disney.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
@@ -8,7 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class MovieDTO {
 
     private Long movieId;
@@ -25,8 +27,8 @@ public class MovieDTO {
 
     @NotNull(message = "Rate is mandatory")
     @Positive(message = "Rate cannot be negative")
-    @Min(1)
-    @Max(5)
+    @Min(message = "Minimum rate is 1", value = 1)
+    @Max(message = "Maximum rate is 5", value = 5)
     private Integer rate;
 
     private List<CharacterDTO> characters = new ArrayList<>();
