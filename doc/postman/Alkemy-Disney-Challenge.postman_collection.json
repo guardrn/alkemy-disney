@@ -288,6 +288,54 @@
           "response": []
         },
         {
+          "name": "Character by Filters",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGhvdG1haWwuY29tIiwiZXhwIjoxNjU4ODA4ODE5LCJpYXQiOjE2NTg3NzI4MTl9.9hgDhOM8klJHfimNc25uCMQMI8xrtjrM5mD_iE1Dy0M",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "name",
+                "value": "Tarzan",
+                "type": "default"
+              },
+              {
+                "key": "age",
+                "value": "26",
+                "type": "default",
+                "disabled": true
+              },
+              {
+                "key": "movies",
+                "value": "2",
+                "type": "default",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/characters/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "characters",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Character by ID",
           "request": {
             "auth": {
@@ -453,6 +501,53 @@
               "port": "8080",
               "path": [
                 "movies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Movie by Filters",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0QGhvdG1haWwuY29tIiwiZXhwIjoxNjU4ODA4ODE5LCJpYXQiOjE2NTg3NzI4MTl9.9hgDhOM8klJHfimNc25uCMQMI8xrtjrM5mD_iE1Dy0M",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "title",
+                "value": "Toy Story",
+                "type": "default",
+                "disabled": true
+              },
+              {
+                "key": "genre",
+                "value": "Action",
+                "type": "default"
+              },
+              {
+                "key": "order",
+                "value": "asc",
+                "type": "default"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/characters/",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "characters",
+                ""
               ]
             }
           },
